@@ -1,0 +1,151 @@
+/* border box
+   https://www.paulirish.com/2012/box-sizing-border-box-ftw/ */
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
+  font-family: Arial, Geneva, sans-serif;
+}
+
+a {
+  color: #2772B0;
+}
+
+.wrapper {
+  width: 97%;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #fff;
+}
+
+img {
+  width: 100%;
+  max-width: 225px;
+}
+
+/* grid system, mobile first. each row is a grid container, defaults to one column on mobile.
+   gap is shorthand for row-gap and column-gap combined, controls spacing between grid cells but not the outer edges */
+.row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+/* card colors */
+.card {
+  padding: 12px;
+}
+
+.card-blue   { background-color: #A3CDD9; }
+.card-yellow { background-color: #FFFCE6; }
+.card-green  { background-color: #EDD23B; }
+.card-purple { background-color: #D4C9E8; }
+.card-tan    { background-color: #F0E6B8; }
+
+
+/* row 3 uses grid-template-areas so you can give grid sections actual names instead of counting column lines.
+   grid-area tells each item which named region to sit in */
+.row-3 {
+  grid-template-areas:
+    "narrow"
+    "wide";
+}
+
+.area-narrow { grid-area: narrow; }
+.area-wide   { grid-area: wide; }
+
+
+/* auto-fit with minmax makes columns fill in automatically, each one is at least 140px wide and grows to fill leftover space, no media query needed.
+   place-items is shorthand for align-items and justify-items together so you can center stuff in both directions in one line */
+.row-6 {
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  place-items: start center;
+}
+
+.row-6 .card {
+  text-align: center;
+  width: 100%;
+}
+
+.row-6 img {
+  max-width: 100px;
+  display: block;
+  margin: 8px auto;
+}
+
+.row-6 h3 {
+  margin: 5px 0;
+  font-size: 0.9rem;
+}
+
+.row-6 p {
+  margin: 5px 0;
+  font-size: 0.85rem;
+}
+
+
+/* tablet 480px and up */
+@media only screen and (min-width: 480px) {
+
+  /* rows 1 and 2 go to 2 columns */
+  .row-1,
+  .row-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* row 3 stays stacked on tablet */
+
+  /* row 5 becomes 2 columns and the middle card moves to the front */
+  .row-5 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .row-5 .card:nth-child(1) { order: 2; }
+  .row-5 .card:nth-child(2) { order: 1; }
+  .row-5 .card:nth-child(3) { order: 3; }
+
+  /* row 6 auto-fit naturally goes 3 per row since minmax(140px, 1fr) fits 3 */
+}
+
+
+/* desktop 768px and up */
+@media only screen and (min-width: 768px) {
+
+  /* row 1 goes full 4 columns */
+  .row-1 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  /* row 2 stays 2 columns */
+  .row-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* row 3 goes side by side using the named areas defined above, 1fr narrow and 3fr wide */
+  .row-3 {
+    grid-template-columns: 1fr 3fr;
+    grid-template-areas: "narrow wide";
+  }
+
+  /* row 5 gets the 1-2-1 layout and order resets back to normal */
+  .row-5 {
+    grid-template-columns: 1fr 2fr 1fr;
+  }
+
+  .row-5 .card:nth-child(1) { order: 1; }
+  .row-5 .card:nth-child(2) { order: 2; }
+  .row-5 .card:nth-child(3) { order: 3; }
+
+  /* row 6 gets 6 uneven columns, every other one is wider.
+     column-gap and row-gap are the individual versions of gap, lets you set horizontal and vertical spacing separately */
+  .row-6 {
+    grid-template-columns: 1fr 1.5fr 1fr 1.5fr 1fr 1.5fr;
+    column-gap: 1.5%;
+    row-gap: 0;
+  }
+}
